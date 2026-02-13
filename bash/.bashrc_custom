@@ -1,0 +1,44 @@
+# Custom Bash Configuration
+# This file can be sourced from ~/.bashrc
+
+# ============================================================================
+# Better history settings
+# ============================================================================
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+
+# ============================================================================
+# Prompt Customization with Git Branch
+# ============================================================================
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+# Colorful prompt with git branch
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[33m\]$(parse_git_branch)\[\033[00m\]\$ '
+
+# ============================================================================
+# Helpful Functions
+# ============================================================================
+
+# Create directory and cd into it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Find files by name
+findfile() {
+    find . -type f -iname "*$1*"
+}
+
+# Quick git log
+glog() {
+    git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "${@}"
+}
+
+# ============================================================================
+# Welcome Message
+# ============================================================================
+echo "✨ Custom dotfiles loaded! Type 'll' to list files or 'gs' for git status"
