@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Forge Cloud workspace (forged sets FORGED_URL and ~/.forged): only register the marc-hub MCP, skip the devbox setup below.
+if [ -n "${FORGED_URL:-}" ] || [ -d "$HOME/.forged" ]; then
+  exec bash "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/forge/install.sh"
+fi
+
 # This file is executed by devboxes when they start. You can do
 # nearly anything in here but the rule of thumb here is for
 # any actions that are executed must be able to be executed
